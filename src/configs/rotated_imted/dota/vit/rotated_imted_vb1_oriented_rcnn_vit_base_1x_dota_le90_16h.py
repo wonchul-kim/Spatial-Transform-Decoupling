@@ -1,8 +1,8 @@
 _base_ = [
-    '../_base_/datasets/dotav1.py',
-    '../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py'
+    '../../../_base_/datasets/dotav1.py',
+    '../../../_base_/schedules/schedule_1x.py', '../../../_base_/default_runtime.py'
 ]
-pretrained = 'data/pretrained/mae_pretrain_vit_base_full.pth'
+pretrained = '/HDD/weights/std/mae_pretrain_vit_base_full.pth'
 
 angle_version = 'le90'
 norm_cfg = dict(type='LN', requires_grad=True)
@@ -197,3 +197,4 @@ runner = dict(type='EpochBasedRunner', max_epochs=12)
 
 # you need to set mode='dynamic' if you are using pytorch<=1.5.0
 fp16 = dict(loss_scale=dict(init_scale=512))
+device = 'cuda'

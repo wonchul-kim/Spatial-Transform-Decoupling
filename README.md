@@ -98,9 +98,9 @@ python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/sp
 
 > You must change original DOTA dataset directory in json files.
 
-### 2. Train
+### 2-1. Train rotated_faster_rcnn
 
-#### Edit configuration files
+#### - Edit configuration files
 
 - src/configs/_base_/datasets/dotav1.py
   - `data_root`
@@ -115,19 +115,50 @@ python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/sp
 
 - src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py
 
-#### Train rotated_faster_rcnn
+#### - Train 
 
 ```shell
 CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_train.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 2 
 ```
 
-### 3. Test
-
-#### Test rotated_faster_rcnn
+#### - Test
 ```shell
 CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_test.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 2 --format-only --eval-options submission_dir="./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/"
 python DOTA_devkit/dota_evaluation_task1.py --mergedir "./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/" --imagesetdir "./data/DOTA/val/" --use_07_metric True
 ```
+
+### 2-2. Train rotated_imted_vb1_oriented_rcnn_vit_base
+
+#### - Edit configuration files
+
+- src/configs/_base_/datasets/dotav1.py
+  - `data_root`
+
+- src/configs/_base_/schedules/scheule_1x.py
+  - `evaluation`
+  - `optimizer`
+  - `checkpoint_config`
+
+- src/configs/_base_/default_runtime.py
+  - `workflow`
+
+- src/configs/rotated_imted/dota/vit/rotated_imted_vb1m_oriented_rcnn_vit_base_1x_dota_ms_rr_le90_stdc_xyawh321v.py
+- src/configs/rotated_imted/dota/vit/rotated_imted_vb1_oriented_rcnn_vit_base_1x_dota_le90_16h.py
+  - `pretrained`: Need to specify after downloading the above `mae_pretrain_vit_base_full.pth`
+
+
+#### - Train 
+
+```shell
+CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_train.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 2 
+```
+
+#### - Test
+```shell
+CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_test.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 2 --format-only --eval-options submission_dir="./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/"
+python DOTA_devkit/dota_evaluation_task1.py --mergedir "./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/" --imagesetdir "./data/DOTA/val/" --use_07_metric True
+```
+
 
 ## Acknowledgement
 

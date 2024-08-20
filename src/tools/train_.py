@@ -23,7 +23,7 @@ from mmrotate.utils import collect_env, get_root_logger, setup_multi_processes
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
-    parser.add_argument('--config', default='/HDD/etc/std/Spatial-Transform-Decoupling/src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py', help='train config file path')
+    parser.add_argument('--config', default='/HDD/etc/std/Spatial-Transform-Decoupling/src/configs/rotated_imted/dota/vit/rotated_imted_vb1_oriented_rcnn_vit_base_1x_dota_le90_16h.py')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument(
         '--resume-from', help='the checkpoint file to resume from')
