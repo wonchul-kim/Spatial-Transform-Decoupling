@@ -133,10 +133,10 @@ CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_train.sh ./src/configs/_rotated_f
 
 ### 3. Test
 
-#### rotated_faster_rcnn
+#### Test rotated_faster_rcnn
 ```shell
-CUDA_VISIBLE_DEVICES=0,1 ./src/tools/dist_test.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 8 --format-only --eval-options submission_dir="./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/"
-python "../DOTA_devkit/dota_evaluation_task1.py" --mergedir "./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/" --imagesetdir "./data/DOTA/val/" --use_07_metric True
+CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_test.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 2 --format-only --eval-options submission_dir="./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/"
+python DOTA_devkit/dota_evaluation_task1.py --mergedir "./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/" --imagesetdir "./data/DOTA/val/" --use_07_metric True
 ```
 
 ## Acknowledgement
