@@ -110,19 +110,32 @@ python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/sp
 
 ### 2. Train
 
-#### rotated_faster_rcnn
+#### Edit configuration files
+
+- src/configs/_base_/datasets/dotav1.py
+  - `data_root`
+
+- src/configs/_base_/schedules/scheule_1x.py
+  - `evaluation`
+  - `optimizer`
+  - `checkpoint_config`
+
+- src/configs/_base_/default_runtime.py
+  - `workflow`
+
+- src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py
+
+#### Train rotated_faster_rcnn
 
 ```shell
-CUDA_VISIBLE_DEVICES=0,1 ./tools/dist_train.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 8
-# CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 nohup ./tools/dist_train.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 8 > nohup.log 2>&1 &
-# CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./tools/dist_test.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 8 --eval mAP
+CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_train.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 2 
 ```
 
 ### 3. Test
 
 #### rotated_faster_rcnn
 ```shell
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./tools/dist_test.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 8 --format-only --eval-options submission_dir="./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/"
+CUDA_VISIBLE_DEVICES=0,1 ./src/tools/dist_test.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 8 --format-only --eval-options submission_dir="./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/"
 python "../DOTA_devkit/dota_evaluation_task1.py" --mergedir "./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/" --imagesetdir "./data/DOTA/val/" --use_07_metric True
 ```
 
