@@ -84,18 +84,44 @@ CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./tools/dist_test.sh ./configs/rotated_fast
 python "../DOTA_devkit/dota_evaluation_task1.py" --mergedir "./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/" --imagesetdir "./data/DOTA/val/" --use_07_metric True
 ```
 
-## RUN
+## How to run
 
-### Prepare the dataset - DOTA format
+### 1. Prepare the dataset as DOTA format 
 
+### - Download the dataset from [https://captain-whu.github.io/DOTA/dataset.html](https://captain-whu.github.io/DOTA/dataset.html)
+
+#### - To crop the original images into 1024×1024 patches with an overlap of 200,
 ```shell
-
+python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/split/custom_split_configs/ss_train.json
+python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/split/custom_split_configs/ss_val.json
+python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/split/custom_split_configs/ss_test.json
 ```
 
+> You must change original DOTA dataset directory in json files.
+
+#### - To get a multiple scale crop image of dataset,
 ```shell
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./tools/dist_train.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 8
+python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/split/custom_split_configs/ms_train.json
+python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/split/custom_split_configs/ms_val.json
+python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/split/custom_split_configs/ms_test.json
+```
+
+> You must change original DOTA dataset directory in json files.
+
+### 2. Train
+
+#### rotated_faster_rcnn
+
+```shell
+CUDA_VISIBLE_DEVICES=0,1 ./tools/dist_train.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 8
 # CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 nohup ./tools/dist_train.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 8 > nohup.log 2>&1 &
 # CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./tools/dist_test.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 8 --eval mAP
+```
+
+### 3. Test
+
+#### rotated_faster_rcnn
+```shell
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 ./tools/dist_test.sh ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 8 --format-only --eval-options submission_dir="./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/"
 python "../DOTA_devkit/dota_evaluation_task1.py" --mergedir "./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/" --imagesetdir "./data/DOTA/val/" --use_07_metric True
 ```
