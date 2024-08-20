@@ -138,3 +138,4 @@ data = dict(
     test=dict(version=angle_version))
 
 optimizer = dict(lr=0.005)
+device = 'cuda'
