@@ -118,10 +118,11 @@ python src/tools/data/dota/split/img_split.py --base-json src/tools/data/dota/sp
 #### - Train 
 
 ```shell
-CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_train.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 2 
+CUDA_VISIBLE_DEVICES=0,1,2,3 bash ./src/tools/dist_train.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 4
 ```
 
 #### - Test
+
 ```shell
 CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_test.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 2 --format-only --eval-options submission_dir="./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/"
 python DOTA_devkit/dota_evaluation_task1.py --mergedir "./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/" --imagesetdir "./data/DOTA/val/" --use_07_metric True
@@ -146,17 +147,15 @@ python DOTA_devkit/dota_evaluation_task1.py --mergedir "./work_dirs/Task1_rotate
 - src/configs/rotated_imted/dota/vit/rotated_imted_vb1_oriented_rcnn_vit_base_1x_dota_le90_16h.py
   - `pretrained`: Need to specify after downloading the above `mae_pretrain_vit_base_full.pth`
 
-
 #### - Train 
 
 ```shell
-CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_train.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py 2 
+CUDA_VISIBLE_DEVICES=0,1,2,3 bash ./src/tools/dist_train.sh ./src/configs/rotated_imted/dota/vit/rotated_imted_vb1m_oriented_rcnn_vit_base_1x_dota_ms_rr_le90_stdc_xyawh321v.py 4
 ```
 
 #### - Test
+
 ```shell
-CUDA_VISIBLE_DEVICES=0,1 bash ./src/tools/dist_test.sh ./src/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py ./work_dirs/rotated_faster_rcnn_r50_fpn_1x_dota_le90/epoch_12.pth 2 --format-only --eval-options submission_dir="./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/"
-python DOTA_devkit/dota_evaluation_task1.py --mergedir "./work_dirs/Task1_rotated_faster_rcnn_r50_fpn_1x_dota_le90_epoch_12/" --imagesetdir "./data/DOTA/val/" --use_07_metric True
 ```
 
 

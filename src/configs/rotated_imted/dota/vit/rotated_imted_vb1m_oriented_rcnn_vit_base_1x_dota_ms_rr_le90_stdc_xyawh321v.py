@@ -17,15 +17,15 @@ model = dict(
 )
 
 # dota_ms_rr
-data_root_ms = 'data/split_ms_dota/'
-data_root_ss = 'data/split_ss_dota/'
+data_root_ms = '/HDD/datasets/public/split_ms_dota/'
+data_root_ss = '/HDD/datasets/public/split_ss_dota/'
 angle_version = 'le90'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
-    dict(type='RResize', img_scale=(1024, 1024)),
+    dict(type='RResize', img_scale=(768, 768)),
     dict(
         type='RRandomFlip',
         flip_ratio=[0.25, 0.25, 0.25],
@@ -45,18 +45,18 @@ train_pipeline = [
 ]
 data = dict(
     samples_per_gpu=1,
-    workers_per_gpu=8, # 4, # 8 for A100
+    workers_per_gpu=2, # 4, # 8 for A100
     train=dict(
-        ann_file=data_root_ms + 'trainval/annfiles/',
-        img_prefix=data_root_ms + 'trainval/images/',
+        ann_file=data_root_ss + 'train/annfiles/',
+        img_prefix=data_root_ss + 'train/images/',
         pipeline=train_pipeline, version=angle_version),
     val=dict(
         ann_file=data_root_ss + 'val/annfiles/',
         img_prefix=data_root_ss + 'val/images/',
         version=angle_version),
     test=dict(
-        ann_file=data_root_ms + 'test/images/',
-        img_prefix=data_root_ms + 'test/images/',
+        ann_file=data_root_ss + 'test/images/',
+        img_prefix=data_root_ss + 'test/images/',
         version=angle_version))
 
 # optimizer

@@ -193,7 +193,7 @@ lr_config = dict(
     warmup_iters=500,
     warmup_ratio=1.0 / 3,
     step=[9, 11])
-runner = dict(type='EpochBasedRunner', max_epochs=12)
+runner = dict(type='EpochBasedRunner', max_epochs=51)
 
 # you need to set mode='dynamic' if you are using pytorch<=1.5.0
 fp16 = dict(loss_scale=dict(init_scale=512))

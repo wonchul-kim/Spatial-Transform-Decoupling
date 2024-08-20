@@ -1,6 +1,6 @@
 # yapf:disable
 log_config = dict(
-    interval=50,
+    interval=1,
     hooks=[
         dict(type='TextLoggerHook'),
         # dict(type='TensorboardLoggerHook')
@@ -11,7 +11,7 @@ dist_params = dict(backend='nccl')
 log_level = 'INFO'
 load_from = None
 resume_from = None
-workflow = [('train', 1), ('val', 5)]
+workflow = [('train', 1), ('val', 10)]
 
 # disable opencv multithreading to avoid system being overloaded
 opencv_num_threads = 0

@@ -12,8 +12,8 @@ model = dict(
 )
 
 # dota_ms_rr
-data_root_ms = 'data/split_ms_dota/'
-data_root_ss = 'data/split_ss_dota/'
+data_root_ms = '/HDD/datasets/public/split_ms_dota/'
+data_root_ss = '/HDD/datasets/public/split_ss_dota/'
 angle_version = 'le90'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -42,8 +42,8 @@ data = dict(
     samples_per_gpu=1,
     workers_per_gpu=8, # 4, # 8 for A100
     train=dict(
-        ann_file=data_root_ms + 'trainval/annfiles/',
-        img_prefix=data_root_ms + 'trainval/images/',
+        ann_file=data_root_ms + 'train/annfiles/',
+        img_prefix=data_root_ms + 'train/images/',
         pipeline=train_pipeline, version=angle_version),
     val=dict(
         ann_file=data_root_ss + 'val/annfiles/',
