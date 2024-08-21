@@ -1,7 +1,7 @@
 _base_ = [
     '../../../_base_/datasets/rich_dota.py',
     '../../../_base_/default_runtime.py'
-    '../../../_base_/schedules/schedule_1x_adamw.py'
+    # '../../../_base_/schedules/schedule_1x_adamw.py'
 ]
 
 pretrained = '/HDD/weights/std/mae_pretrain_vit_base_full.pth'
