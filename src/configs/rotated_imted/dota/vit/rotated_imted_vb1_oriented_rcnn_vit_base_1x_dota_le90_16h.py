@@ -1,6 +1,7 @@
 _base_ = [
-    '../../../_base_/datasets/dotav1.py',
-    '../../../_base_/schedules/schedule_1x.py', '../../../_base_/default_runtime.py'
+    '../../../_base_/datasets/rich_dota.py',
+    '../../../_base_/default_runtime.py'
+    '../../../_base_/schedules/schedule_1x_adamw.py'
 ]
 
 pretrained = '/HDD/weights/std/mae_pretrain_vit_base_full.pth'
@@ -154,38 +155,27 @@ model = dict(
             nms=dict(iou_thr=0.1),
             max_per_img=2000)))
 
-img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
-train_pipeline = [
-    dict(type='LoadImageFromFile'),
-    dict(type='LoadAnnotations', with_bbox=True),
-    dict(type='RResize', img_scale=(1024, 1024)),
-    dict(
-        type='RRandomFlip',
-        flip_ratio=[0.25, 0.25, 0.25],
-        direction=['horizontal', 'vertical', 'diagonal'],
-        version=angle_version),
-    dict(type='Normalize', **img_norm_cfg),
-    dict(type='Pad', size_divisor=32),
-    dict(type='DefaultFormatBundle'),
-    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
-]
-data = dict(
-    samples_per_gpu=1,
-    workers_per_gpu=2,
-    train=dict(pipeline=train_pipeline, version=angle_version),
-    val=dict(version=angle_version),
-    test=dict(version=angle_version))
+fp16 = dict(loss_scale=dict(init_scale=512))
+device = 'cuda'
+
+# from default_runtime.py -----------------------------------
+workflow = [('train', 1), ('val', 10)]
+# ------------------------------------------------------------
+
+# from schedulers --------------------------------------------
+# evaluation
+evaluation = dict(interval=300, metric='mAP')
 
 # optimizer
 optimizer = dict(
-    _delete_=True,
+    # _delete_=True,
     type='AdamW',
     lr=1e-4,
     betas=(0.9, 0.999),
     weight_decay=0.05,
     constructor='LayerDecayOptimizerConstructor', 
     paramwise_cfg=dict(num_layers=12, layer_decay_rate=0.75))
+optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
 
 # learning policy
 lr_config = dict(
@@ -195,7 +185,5 @@ lr_config = dict(
     warmup_ratio=1.0 / 3,
     step=[9, 11])
 runner = dict(type='EpochBasedRunner', max_epochs=300)
-
-# you need to set mode='dynamic' if you are using pytorch<=1.5.0
-fp16 = dict(loss_scale=dict(init_scale=512))
-device = 'cuda'
+checkpoint_config = dict(interval=10, create_symlink=False)
+# ------------------------------------------------------------
