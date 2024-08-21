@@ -19,11 +19,12 @@ from mmrotate.apis import train_detector
 from mmrotate.datasets import build_dataset
 from mmrotate.models import build_detector
 from mmrotate.utils import collect_env, get_root_logger, setup_multi_processes
+import custom_dota_dataset
 
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a detector')
-    parser.add_argument('--config', default='/HDD/etc/std/Spatial-Transform-Decoupling/src/configs/rotated_imted/dota/vit/rotated_imted_vb1_oriented_rcnn_vit_base_1x_dota_le90_16h.py')
+    parser.add_argument('--config', default='/HDD/etc/std/Spatial-Transform-Decoupling/src/configs/rotated_imted/dota/vit/rotated_imted_vb1m_oriented_rcnn_vit_base_1x_dota_ms_rr_le90_stdc_xyawh321v.py')
     parser.add_argument('--work-dir', help='the dir to save logs and models')
     parser.add_argument(
         '--resume-from', help='the checkpoint file to resume from')

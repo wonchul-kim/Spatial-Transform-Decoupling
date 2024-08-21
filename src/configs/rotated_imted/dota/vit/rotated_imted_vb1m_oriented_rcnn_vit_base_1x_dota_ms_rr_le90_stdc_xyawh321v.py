@@ -17,6 +17,7 @@ model = dict(
 )
 
 # dota_ms_rr
+data_root_rich = '/HDD/datasets/projects/rich/24.06.19/split_dataset_box_dota/'
 data_root_ms = '/HDD/datasets/public/split_ms_dota/'
 data_root_ss = '/HDD/datasets/public/split_ss_dota/'
 angle_version = 'le90'
@@ -43,21 +44,52 @@ train_pipeline = [
     dict(type='DefaultFormatBundle'),
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
 ]
+classes = ('BOX',)
+dataset_type = 'CustomDOTADataset'
 data = dict(
     samples_per_gpu=1,
     workers_per_gpu=2, # 4, # 8 for A100
     train=dict(
-        ann_file=data_root_ss + 'train/annfiles/',
-        img_prefix=data_root_ss + 'train/images/',
+        type=dataset_type,
+        classes=classes,
+        ann_file=data_root_rich + 'train/labelTxt/',
+        img_prefix=data_root_rich + 'train/images/',
         pipeline=train_pipeline, version=angle_version),
     val=dict(
-        ann_file=data_root_ss + 'val/annfiles/',
-        img_prefix=data_root_ss + 'val/images/',
+        type=dataset_type,
+        classes=classes,
+        ann_file=data_root_rich + 'val/labelTxt/',
+        img_prefix=data_root_rich + 'val/images/',
         version=angle_version),
     test=dict(
-        ann_file=data_root_ss + 'test/images/',
-        img_prefix=data_root_ss + 'test/images/',
+        type=dataset_type,
+        classes=classes,
+        ann_file=data_root_rich + 'val/images/',
+        img_prefix=data_root_rich + 'val/images/',
         version=angle_version))
+
+# classes = ('plane', 'baseball-diamond', 'bridge', 'ground-track-field',
+#                'small-vehicle', 'large-vehicle', 'ship', 'tennis-court',
+#                'basketball-court', 'storage-tank', 'soccer-ball-field',
+#                'roundabout', 'harbor', 'swimming-pool', 'helicopter')
+# data = dict(
+#     samples_per_gpu=1,
+#     workers_per_gpu=2, # 4, # 8 for A100
+#     train=dict(
+#         classes=classes,
+#         ann_file=data_root_ss + 'train/annfiles/',
+#         img_prefix=data_root_ss + 'train/images/',
+#         pipeline=train_pipeline, version=angle_version),
+#     val=dict(
+#         classes=classes,
+#         ann_file=data_root_ss + 'val/annfiles/',
+#         img_prefix=data_root_ss + 'val/images/',
+#         version=angle_version),
+#     test=dict(
+#         classes=classes,
+#         ann_file=data_root_ss + 'test/images/',
+#         img_prefix=data_root_ss + 'test/images/',
+#         version=angle_version))
 
 # optimizer
 # optimizer = dict(lr=5e-5)  # 4 GPUs for A100

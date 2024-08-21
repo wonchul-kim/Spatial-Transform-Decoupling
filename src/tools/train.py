@@ -19,6 +19,7 @@ from mmrotate.apis import train_detector
 from mmrotate.datasets import build_dataset
 from mmrotate.models import build_detector
 from mmrotate.utils import collect_env, get_root_logger, setup_multi_processes
+import custom_dota_dataset
 
 
 def parse_args():

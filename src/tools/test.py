@@ -18,7 +18,7 @@ from mmdet.datasets import build_dataloader, replace_ImageToTensor
 from mmrotate.datasets import build_dataset
 from mmrotate.models import build_detector
 from mmrotate.utils import compat_cfg, setup_multi_processes
-
+import custom_dota_dataset
 
 def parse_args():
     """Parse parameters."""
